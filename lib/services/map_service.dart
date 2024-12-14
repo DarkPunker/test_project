@@ -4,14 +4,12 @@ import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 
 class MapService extends ChangeNotifier {
-  final LatLng startPoint = LatLng(1.620163, -75.605241); 
-  final LatLng endPoint =
-      LatLng(1.617311, -75.605615); 
+  final LatLng startPoint = const LatLng(1.620163, -75.605241);
+  final LatLng endPoint = const LatLng(1.617311, -75.605615);
   List<LatLng> routePoints = [];
 
-  final int maxRetries = 15; 
-  final Duration retryDelay =
-      Duration(seconds: 3); 
+  final int maxRetries = 15;
+  final Duration retryDelay = const Duration(seconds: 3);
 
   Future<void> _getRouteWithRetry() async {
     int attempt = 0;
@@ -28,7 +26,7 @@ class MapService extends ChangeNotifier {
         print('Error al obtener la ruta (intento $attempt): $e');
         if (attempt < maxRetries) {
           print('Reintentando en ${retryDelay.inSeconds} segundos...');
-          await Future.delayed(retryDelay); 
+          await Future.delayed(retryDelay);
         } else {
           print('Se agotaron los intentos');
         }
