@@ -4,16 +4,12 @@ import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 
 class MapService extends ChangeNotifier {
-  final LatLng startPoint = LatLng(1.620163, -75.605241); 
-  final LatLng endPoint =
-      LatLng(1.617311, -75.605615); 
-  List<LatLng> routePoints = [];
-
+  
   final int maxRetries = 15; 
   final Duration retryDelay =
       Duration(seconds: 3); 
 
-  Future<void> _getRouteWithRetry() async {
+  Future<void> _getRouteWithRetry(LatLng startPoint, LatLng endPoint) async {
     int attempt = 0;
     bool success = false;
 
@@ -21,7 +17,7 @@ class MapService extends ChangeNotifier {
       attempt++;
       try {
         print("Intento $attempt de $maxRetries");
-        await _getRoute();
+        await _getRoute(startPoint, endPoint);
         success = true;
         print('Se logro');
       } catch (e) {
@@ -36,8 +32,9 @@ class MapService extends ChangeNotifier {
     }
   }
 
-  Future<void> _getRoute() async {
+  Future<List<LatLng>?> _getRoute(LatLng startPoint, LatLng endPoint) async {
     var client = http.Client();
+    List<LatLng> routePoints = [];
     String routePath =
         '/route/v1/driving/${startPoint.longitude},${startPoint.latitude};${endPoint.longitude},${endPoint.latitude}?geometries=geojson';
     final url = Uri.http('router.project-osrm.org', routePath);
