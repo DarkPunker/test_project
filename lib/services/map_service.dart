@@ -24,7 +24,7 @@ class MapService extends ChangeNotifier {
         print('Error al obtener la ruta (intento $attempt): $e');
         if (attempt < maxRetries) {
           print('Reintentando en ${retryDelay.inSeconds} segundos...');
-          await Future.delayed(retryDelay); 
+          await Future.delayed(retryDelay);
         } else {
           print('Se agotaron los intentos');
         }
