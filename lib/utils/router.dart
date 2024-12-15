@@ -26,7 +26,7 @@ final GoRouter router = GoRouter(
       ),
       GoRoute(
         path: '/chat_ia',
-        builder: (context, state) => const ChatIaScreen(),
+        builder: (context, state) => ChatbotScreen(),
       ),
       GoRoute(
         path: '/viewer',
