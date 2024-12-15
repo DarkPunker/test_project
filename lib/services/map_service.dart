@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 
-class MapService extends ChangeNotifier {
+class MapService{
   
   final int maxRetries = 15; 
   final Duration retryDelay =
@@ -52,10 +52,10 @@ class MapService extends ChangeNotifier {
       final geometry = data['routes'][0]['geometry']['coordinates'];
       routePoints =
           geometry.map<LatLng>((point) => LatLng(point[1], point[0])).toList();
-      notifyListeners();
     } else {
       print('Error al obtener la ruta: ${response.statusCode}');
       throw Exception('Error en la petición: ${response.statusCode}');
     }
+    return routePoints;
   }
 }
