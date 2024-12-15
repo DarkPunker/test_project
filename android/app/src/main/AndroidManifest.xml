@@ -5,6 +5,7 @@
     
     <!-- Si necesitas acceso en segundo plano (opcional) -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <application android:label="Agro Conecta" android:name="${applicationName}" android:usesCleartextTraffic="true" android:icon="@mipmap/ic_launcher">
 
     <application
         android:label="test_project"

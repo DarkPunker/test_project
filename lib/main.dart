@@ -6,9 +6,12 @@ import 'package:test_project/database/cliente.dart';
 import 'package:test_project/database/tienda.dart';
 import 'package:test_project/database/usuario.dart';
 import 'package:test_project/providers/auth_provider.dart';
+
 import 'package:test_project/providers/navigation_provider.dart';
 import 'package:test_project/utils/router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:stream_chat_localizations/stream_chat_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,13 +53,25 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalStreamChatLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        locale: const Locale('es', 'CO'),
+        supportedLocales: const [
+          Locale('en', 'US'), // English
+          Locale('es', 'ES'), // Spanish (Spain)
+          Locale('es', 'CO'), // Spanish (Colombia)
+        ],
         builder: (context, child) => StreamChat(
           client: client,
           child: child,
         ),
-        title: 'Agro',
+        title: 'Agro Conecta',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff55b047)),
           useMaterial3: true,
         ),
         routerConfig: router,
