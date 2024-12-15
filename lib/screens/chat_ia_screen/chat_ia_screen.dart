@@ -9,6 +9,7 @@ import 'package:path/path.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:test_project/screens/chat_ia_screen/widgets/chat_controller.dart';
 import 'package:go_router/go_router.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class ChatIaScreen extends StatefulWidget {
   const ChatIaScreen({super.key});
@@ -193,6 +194,53 @@ class _ChatIaScreenState extends State<ChatIaScreen> {
               ),
               onMessageSend: _handleMessageSend,
             ),
+    );
+  }
+}
+
+class ChatbotScreen extends StatefulWidget {
+  @override
+  _ChatbotScreenState createState() => _ChatbotScreenState();
+}
+
+class _ChatbotScreenState extends State<ChatbotScreen> {
+  final WebViewController webViewController = WebViewController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializamos el WebView cuando se crea la pantalla
+    webViewController
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onHttpError: (HttpResponseError error) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith(
+                'https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/15/19/20241215194917-YPNIDT0V.json')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(
+          'https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/15/19/20241215194917-YPNIDT0V.json'));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: WebViewWidget(
+        controller: webViewController,
+      ),
     );
   }
 }
