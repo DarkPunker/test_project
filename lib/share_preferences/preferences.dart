@@ -11,6 +11,10 @@ class Preferences {
 
   static String _uri = 'http://192.168.0.101:8000';
 
+  static Future init() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
   static String get uri {
     return _prefs.getString('uri') ?? _uri;
   }

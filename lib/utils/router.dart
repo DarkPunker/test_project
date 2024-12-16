@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:test_project/screens/chat_ia_screen/chat_ia_screen.dart';
 import 'package:test_project/screens/chat_screen/channel_page.dart';
+import 'package:test_project/screens/login_screen/login_screen.dart';
 import 'package:test_project/screens/navigation_screen.dart';
 import 'package:test_project/screens/products_screen/widgets/glb_model_viewer.dart';
 import 'package:test_project/screens/splash_screen.dart';
@@ -18,7 +19,7 @@ final GoRouter router = GoRouter(
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: '/navigation',

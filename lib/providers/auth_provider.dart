@@ -46,37 +46,70 @@ class AuthProvider extends ChangeNotifier {
         onlinelogin = false;
       } else if (resp.statusCode == 200) {
         onlinelogin = true;
-        Map<String, dynamic> jsonResponse = resp.data;
-        Usuario user =
-            Usuario(email: jsonResponse['email'], contrasena: contrasena);
-        Preferences.token = jsonResponse['token'];
-        final cliente = Cliente(
-          cc: jsonResponse['cliente']['cc'],
-          nombre: jsonResponse['cliente']['nombre'],
-          apellido: jsonResponse['cliente']['apellido'],
-          direccion: jsonResponse['cliente']['direccion'],
-          lat: jsonResponse['cliente']['lat'],
-          long: jsonResponse['cliente']['long'],
-        );
-        
-        if (jsonResponse['tienda'] != null && jsonResponse['tienda'].isNotEmpty) {
-          final tienda = Tienda(
-            id: jsonResponse['tienda']['id'],
-            nombre: jsonResponse['tienda']['nombre'],
-            redes: jsonResponse['tienda']['redes'],
-            celular: jsonResponse['tienda']['celular'],
-            direccion: jsonResponse['tienda']['direccion'],
-            lat: jsonResponse['tienda']['lat'],
-            long: jsonResponse['tienda']['long'],
-          );
-          await boxUsuario.put(user.email, user);
-          await boxcliente.put(cliente.cc, cliente);
-          await boxTienda.put(tienda.id, tienda);
-        }
+        loadDataAuthInbox(resp.data, contrasena);
       } else if (resp.statusCode == 401) {
         throw Exception(_messageError);
       }
-      
+
+      _isLoading = false;
+      notifyListeners();
+      return onlinelogin;
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      print("Error login , $e");
+      return false;
+    }
+  }
+
+  void loadDataAuthInbox(
+      Map<String, dynamic> jsonResponse, String contrasena) async {
+    Usuario user =
+        Usuario(email: jsonResponse['email'], contrasena: contrasena);
+    Preferences.token = jsonResponse['token'];
+    final cliente = Cliente(
+      cc: jsonResponse['cliente']['cc'],
+      nombre: jsonResponse['cliente']['nombre'],
+      apellido: jsonResponse['cliente']['apellido'],
+      direccion: jsonResponse['cliente']['direccion'],
+      lat: jsonResponse['cliente']['lat'],
+      long: jsonResponse['cliente']['long'],
+    );
+
+    if (jsonResponse['tienda'] != null && jsonResponse['tienda'].isNotEmpty) {
+      final tienda = Tienda(
+        id: jsonResponse['tienda']['id'],
+        nombre: jsonResponse['tienda']['nombre'],
+        redes: jsonResponse['tienda']['redes'],
+        celular: jsonResponse['tienda']['celular'],
+        direccion: jsonResponse['tienda']['direccion'],
+        lat: jsonResponse['tienda']['lat'],
+        long: jsonResponse['tienda']['long'],
+      );
+      await boxUsuario.put(user.email, user);
+      await boxcliente.put(cliente.cc, cliente);
+      await boxTienda.put(tienda.id, tienda);
+    }
+  }
+
+  Future<bool> register(int cc, String email, String contrasena, String nombre,
+      String apellido, String direccion, String lat, String long) async {
+    _isLoading = true;
+    notifyListeners();
+    bool onlinelogin = false;
+    try {
+      var resp = await _authService.register(
+          cc, email, contrasena, nombre, apellido, direccion, lat, long);
+
+      if (resp == null) {
+        onlinelogin = false;
+      } else if (resp.statusCode == 200) {
+        onlinelogin = true;
+        loadDataAuthInbox(resp.data, contrasena);
+      } else if (resp.statusCode == 401) {
+        throw Exception(_messageError);
+      }
+
       _isLoading = false;
       notifyListeners();
       return onlinelogin;

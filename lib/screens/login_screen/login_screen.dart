@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:test_project/providers/auth_provider.dart';
 import 'package:test_project/screens/login_screen/widgets/button_login.dart';
 import 'package:test_project/screens/login_screen/widgets/textfield_login.dart';
 import 'package:test_project/utils/responsive.dart';
@@ -20,11 +21,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey();
   FocusNode? emailFocusNode;
   FocusNode? passwordFocusNode;
+  late AuthProvider model;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    model = Provider.of<AuthProvider>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
-    final model = Provider.of<AuthProvider>(context, listen: true);
+    
     EdgeInsets paddingPage = EdgeInsets.only(
       left: responsive.isTablet ? responsive.wp(30) : responsive.wp(15),
       right: responsive.isTablet ? responsive.wp(30) : responsive.wp(15),
@@ -107,8 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       ButtonWidgetLogin(
                           text: 'Iniciar Sesión',
-                          onPressed: () =>
-                              model.checkCredentialLogin(context, formKey)),
+                          onPressed: () {
+                              model.login(model.email, model.password);
+                              }
+                          ),
                       Padding(
                         padding: EdgeInsets.only(
                             top: responsive.isTablet ? responsive.hp(2) : 5,

@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:test_project/database/boxes.dart';
+import 'package:test_project/database/categoria.dart';
 import 'package:test_project/database/cliente.dart';
+import 'package:test_project/database/ordencompra.dart';
+import 'package:test_project/database/producto.dart';
 import 'package:test_project/database/tienda.dart';
+import 'package:test_project/database/tiendaproducto.dart';
 import 'package:test_project/database/usuario.dart';
 import 'package:test_project/providers/auth_provider.dart';
 
 import 'package:test_project/providers/navigation_provider.dart';
+import 'package:test_project/share_preferences/preferences.dart';
 import 'package:test_project/utils/router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,12 +31,22 @@ void main() async {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsIm5hbWUiOiJqaG9uIiwiaWF0IjoxNTE2MjM5MDIyfQ.CyF4gIjrK8CwoDvSB3gEqEc1d-3PLnxs8K0azRHYfHI',
   );
   await Hive.initFlutter();
-  Hive.registerAdapter(UsuarioAdapter());
+  Hive.registerAdapter(CategoriaAdapter());
   Hive.registerAdapter(ClienteAdapter());
+  Hive.registerAdapter(OrdenCompraAdapter());
+  Hive.registerAdapter(ProductoAdapter());
   Hive.registerAdapter(TiendaAdapter());
-  boxUsuario = await Hive.openBox<Usuario>('usuarioBox');
+  Hive.registerAdapter(TiendaProductoAdapter());
+  Hive.registerAdapter(UsuarioAdapter());
+
   boxcliente = await Hive.openBox<Cliente>('clienteBox');
-  boxTienda = await Hive.openBox<Tienda>('tiendaeBox');
+  boxTienda = await Hive.openBox<Tienda>('tiendaBox');
+  boxUsuario = await Hive.openBox<Usuario>('usuarioBox');
+  boxCategoria = await Hive.openBox<Categoria>('categoriaBox');
+  boxOrdenCompra = await Hive.openBox<OrdenCompra>('ordenCompraBox');
+  boxProducto = await Hive.openBox<Producto>('productoBox');
+  boxTiendaProducto = await Hive.openBox<TiendaProducto>('tiendaProductoBox');
+  await Preferences.init();
   runApp(MyApp(client: client));
 }
 
