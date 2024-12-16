@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:test_project/providers/navigation_provider.dart';
 import 'package:test_project/screens/chat_screen/channel_list_page.dart';
 import 'package:test_project/screens/products_screen/products_screen.dart';
+import 'package:test_project/screens/profile_screen/profile_screen.dart';
 import 'package:test_project/widgets/map.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -57,26 +58,29 @@ class _NavigationScreenState extends State<NavigationScreen> {
     final navigationViewModel = Provider.of<NavigationViewModel>(context);
 
     final List<Widget> pages = [
-      const MapWidget(),
       ProductsScreen(scrollController: _scrollController),
       const ChannelListPage(),
+      const MapWidget(),
+      ProfileScreen()
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Productos',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+        surfaceTintColor: Colors.transparent,
+        title: Text(
+          navigationViewModel.routeName,
+          style: const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        backgroundColor: Colors.indigo,
+        backgroundColor: const Color(0xff55b047),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(
+              Icons.notifications_active,
+              color: Colors.white,
+            ),
             onPressed: () {
-              context.push('/settings');
+              context.push('/viewer');
             },
           ),
         ],
@@ -88,7 +92,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           opacity: _isScrollingDown ? 0.0 : 1.0,
           duration: const Duration(milliseconds: 200),
           child: FloatingActionButton(
-            backgroundColor: const Color.fromARGB(255, 5, 15, 155),
+            backgroundColor: const Color(0xff55b047),
             child: const Icon(
               Icons.smart_toy,
               color: Colors.white,
@@ -110,24 +114,27 @@ class _NavigationScreenState extends State<NavigationScreen> {
         resizeToAvoidBottomInset: true,
         items: [
           PersistentBottomNavBarItem(
-            icon: const Icon(Icons.map),
-            title: "Mapa",
-            activeColorPrimary: Colors.indigo,
+            icon: const Icon(Icons.message),
+            title: "Chats",
+            activeColorPrimary: const Color(0xff55b047),
             inactiveColorPrimary: Colors.grey,
           ),
           PersistentBottomNavBarItem(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.shopping_bag),
             title: "Productos",
-            activeColorPrimary: Colors.indigo,
+            activeColorPrimary: const Color(0xff55b047),
             inactiveColorPrimary: Colors.grey,
           ),
           PersistentBottomNavBarItem(
-            icon: const Icon(Icons.chat),
-            title: "Chat",
-            activeColorPrimary: Colors.indigo,
+            icon: const Icon(Icons.person_2),
+            title: "Perfil",
+            activeColorPrimary: const Color(0xff55b047),
             inactiveColorPrimary: Colors.grey,
           ),
         ],
+        onItemSelected: (int value) {
+          navigationViewModel.setNameRoute(value);
+        },
         navBarStyle: NavBarStyle.style3,
       ),
     );

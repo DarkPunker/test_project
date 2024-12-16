@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 import 'package:test_project/providers/navigation_provider.dart';
+import 'package:test_project/providers/products_provider.dart';
+import 'package:test_project/providers/profile_provider.dart';
 import 'package:test_project/services/map_service.dart';
 import 'package:test_project/utils/router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -37,6 +39,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => MapService(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileProvider(),
         ),
       ],
       child: MaterialApp.router(

@@ -4,8 +4,12 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:test_project/screens/chat_ia_screen/chat_ia_screen.dart';
 import 'package:test_project/screens/chat_screen/channel_page.dart';
 import 'package:test_project/screens/navigation_screen.dart';
+import 'package:test_project/screens/products_screen/product_category_screen.dart';
 import 'package:test_project/screens/products_screen/widgets/glb_model_viewer.dart';
+import 'package:test_project/screens/products_screen/widgets/list_products_widget.dart';
+import 'package:test_project/screens/products_screen/widgets/product_detail.dart';
 import 'package:test_project/screens/splash_screen.dart';
+import 'package:test_project/screens/store_screen/store_screen.dart';
 
 final GoRouter router = GoRouter(
     initialLocation: '/splash',
@@ -45,5 +49,23 @@ final GoRouter router = GoRouter(
             ),
           );
         },
+      ),
+      GoRoute(
+        path: '/products_category',
+        builder: (context, state) => CategoryProductList(
+          categoryId: state.extra as String,
+        ),
+      ),
+      GoRoute(
+        path: '/products_detail',
+        builder: (context, state) => ProductDetailWidget(
+          productId: state.extra as String,
+        ),
+      ),
+      GoRoute(
+        path: '/store_detail',
+        builder: (context, state) => StoreDetailWidget(
+          idProduct: state.extra as String,
+        ),
       ),
     ]);

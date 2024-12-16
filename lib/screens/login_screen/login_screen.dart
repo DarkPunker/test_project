@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
-    final model = Provider.of<AuthProvider>(context, listen: true);
+    // final model = Provider.of<AuthProvider>(context, listen: true);
     EdgeInsets paddingPage = EdgeInsets.only(
       left: responsive.isTablet ? responsive.wp(30) : responsive.wp(15),
       right: responsive.isTablet ? responsive.wp(30) : responsive.wp(15),
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             usernameFocusNode: emailFocusNode,
                             keyboardType: TextInputType.emailAddress,
                             onChanged: (text) {
-                              model.email = text.trim();
+                              //        model.email = text.trim();
                             },
                             validator: (text) {
                               if (text == null || text.isEmpty) {
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Color.fromRGBO(107, 115, 91, 1),
                             ),
                             onChanged: (text) {
-                              model.password = text.trim();
+                              //      model.password = text.trim();
                             },
                             validator: (text) {
                               if (text!.trim().isEmpty) {
@@ -105,10 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ]),
                       ),
-                      ButtonWidgetLogin(
+                      /*    ButtonWidgetLogin(
                           text: 'Iniciar Sesión',
                           onPressed: () =>
-                              model.checkCredentialLogin(context, formKey)),
+                              model.checkCredentialLogin(context, formKey)),*/
                       Padding(
                         padding: EdgeInsets.only(
                             top: responsive.isTablet ? responsive.hp(2) : 5,
